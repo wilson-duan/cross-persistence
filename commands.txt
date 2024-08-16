@@ -1,0 +1,20 @@
+kubectl run curlpod --image=radial/busyboxplus:curl -i --tty --rm
+
+curl -X POST http://pv-pvc-creator.default.svc.cluster.local/create-pv-pvc \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "example-pvc",
+  "path": "/srv/nfs/kubedata/test",
+  "capacity": "256Mi"
+}'
+
+curl -X POST http://10.0.0.144:30244/create-pv-pvc \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "example-pvc",
+  "path": "/srv/nfs/kubedata/test",
+  "capacity": "256Mi"
+}'
+
+docker build -t wilsonduan10/cross-persistence:latest .
+docker push wilsonduan10/cross-persistence:latest
